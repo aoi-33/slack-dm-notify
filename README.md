@@ -1,11 +1,11 @@
-# slack-noti
+# slack-dm-notify
 
 エンドポイントへの HTTP リクエストを受け取ると、登録ユーザーの **Slack DM** に通知を送る軽量サービスです。
 通知は「テンプレート（通知タイプ）」として管理し、リクエストの `param` で穴埋めして送信します。
 **複数ユーザー対応**で、各ユーザーは Web UI から自分の通知タイプを作成・編集できます。
 
 ```
-  外部システム                         slack-noti (FastAPI)                 Slack
+  外部システム                       slack-dm-notify (FastAPI)              Slack
  ┌────────────┐   POST /notify      ┌──────────────────────┐            ┌────────┐
  │ CI / cron  │ ──────────────────▶ │ 認証(user/pass)        │            │        │
  │ スクリプト  │  {user,pass,         │   ↓                   │  Bot Token │  DM    │
@@ -66,7 +66,7 @@
 ## クイックスタート
 
 ```bash
-git clone <this-repo> slack-noti && cd slack-noti
+git clone https://github.com/aoi-33/slack-dm-notify.git && cd slack-dm-notify
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}新規登録 — Slack Notify{% endblock %}
+{% block layout %}
+<div class="auth">
+  <div style="width:100%;max-width:400px">
+    <div class="brand" style="margin-bottom:18px;justify-content:center"><span class="dot"></span>slack-noti</div>
+    <div class="card">
+      <h1>新規登録</h1>
+      <p class="sub">通知の送り先となる Slack member ID を登録します。</p>
+      {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+      <form method="post" action="/register">
+        <div class="field">
+          <label for="username">ユーザー名</label>
+          <input id="username" name="username" placeholder="username" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">パスワード</label>
+          <input id="password" name="password" type="password" placeholder="password" autocomplete="new-password" required>
+        </div>
+        <div class="field">
+          <label for="slack_member_id">Slack member ID</label>
+          <input id="slack_member_id" name="slack_member_id" placeholder="U01ABC23DEF" required>
+          <p class="hint">Slack のプロフィール →「⋮」→「メンバー ID をコピー」で取得（U で始まる ID）。</p>
+        </div>
+        <button class="btn primary block" type="submit">登録する</button>
+      </form>
+    </div>
+    <p class="sub" style="text-align:center;margin-top:14px">
+      すでにアカウントをお持ちですか？ <a href="/login">ログイン</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}ログイン — Slack Notify{% endblock %}
+{% block layout %}
+<div class="auth">
+  <div style="width:100%;max-width:380px">
+    <div class="brand" style="margin-bottom:18px;justify-content:center"><span class="dot"></span>slack-noti</div>
+    <div class="card">
+      <h1>ログイン</h1>
+      <p class="sub">通知タイプを管理するにはログインしてください。</p>
+      {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+      <form method="post" action="/login">
+        <div class="field">
+          <label for="username">ユーザー名</label>
+          <input id="username" name="username" placeholder="username" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">パスワード</label>
+          <input id="password" name="password" type="password" placeholder="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn primary block" type="submit">ログイン</button>
+      </form>
+    </div>
+    <p class="sub" style="text-align:center;margin-top:14px">
+      アカウントをお持ちでない方は <a href="/register">新規登録</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

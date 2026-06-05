@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{% if type %}通知タイプを編集{% else %}通知タイプを作成{% endif %} — Slack Notify{% endblock %}
+{% block layout %}
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span>slack-noti</div>
+    <a class="btn ghost sm" href="/">← 戻る</a>
+  </div>
+
+  <div class="card" style="max-width:560px;margin:0 auto">
+    <h1>{% if type %}通知タイプを編集{% else %}通知タイプを作成{% endif %}</h1>
+    <p class="sub">本文テンプレに <code>{変数名}</code> を書くと、リクエストの <code>param</code> で穴埋めされます。</p>
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <form method="post" action="{% if type %}/types/{{ type.id }}{% else %}/types{% endif %}">
+      <div class="field">
+        <label for="name">表示名</label>
+        <input id="name" name="name" placeholder="例: デプロイ完了通知" value="{{ type.name if type else '' }}" required>
+      </div>
+      <div class="field">
+        <label for="notify_id">notify_id</label>
+        <input id="notify_id" name="notify_id" placeholder="例: deploy_done" value="{{ type.notify_id if type else '' }}" required>
+        <p class="hint">リクエストでこの通知タイプを指定するための識別子（あなたの中で一意）。</p>
+      </div>
+      <div class="field">
+        <label for="template">本文テンプレート</label>
+        <textarea id="template" name="template" placeholder="🚀 {service} のデプロイが {status} で完了" required>{{ type.template if type else '' }}</textarea>
+        <p class="hint">例: <code>{service}</code> や <code>{status}</code> が変数になります。</p>
+      </div>
+      <button class="btn primary block" type="submit">保存</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

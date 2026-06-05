@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}ダッシュボード — Slack Notify{% endblock %}
+{% block layout %}
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span>slack-noti</div>
+    <div class="who">
+      <span>{{ user.username }}</span>
+      <form class="inline-form" method="post" action="/logout"><button class="btn ghost sm" type="submit">ログアウト</button></form>
+    </div>
+  </div>
+
+  <div class="row-between">
+    <div>
+      <h1>通知タイプ</h1>
+      <p class="sub" style="margin:0">リクエストを受け取ると、本文テンプレに <code>param</code> を埋めて自分の Slack DM に届きます。</p>
+    </div>
+    <a class="btn primary" href="/types/new">＋ 新規作成</a>
+  </div>
+
+  {% if not types %}
+    <div class="card empty">
+      <p>まだ通知タイプがありません。</p>
+      <a class="btn primary" href="/types/new">最初の通知タイプを作成</a>
+    </div>
+  {% endif %}
+
+  <div class="stack-16">
+  {% for t in types %}
+    <section class="card">
+      <div class="type-head">
+        <div>
+          <h3 class="type-name">{{ t.name }}</h3>
+          <div class="type-id"><span class="chip mono">notify_id: {{ t.notify_id }}</span></div>
+        </div>
+        <div class="type-actions">
+          <a class="btn ghost sm" href="/types/{{ t.id }}/edit">編集</a>
+          <form class="inline-form" method="post" action="/types/{{ t.id }}/test">
+            <button class="btn ghost accent sm" type="submit">テスト送信</button>
+          </form>
+          <form class="inline-form" method="post" action="/types/{{ t.id }}/delete"
+                onsubmit="return confirm('「{{ t.name }}」を削除しますか？');">
+            <button class="btn ghost danger sm" type="submit">削除</button>
+          </form>
+        </div>
+      </div>
+
+      <pre class="template-preview"><code>{{ t.template }}</code></pre>
+
+      <div class="vars">
+        <span class="label-inline">変数:</span>
+        {% for v in t.variables %}<span class="chip mono var">{{ v }}</span>{% endfor %}
+        {% if not t.variables %}<span class="muted">なし</span>{% endif %}
+      </div>
+
+      <div class="examples">
+        <div class="ex-head">
+          <div class="tabs">
+            <button type="button" class="tab is-active" data-target="curl-{{ t.id }}">curl</button>
+            <button type="button" class="tab" data-target="py-{{ t.id }}">Python</button>
+          </div>
+          <button type="button" class="copy">コピー</button>
+        </div>
+        <pre id="curl-{{ t.id }}" class="code is-active"><code>{{ t.curl }}</code></pre>
+        <pre id="py-{{ t.id }}" class="code"><code>{{ t.python }}</code></pre>
+      </div>
+    </section>
+  {% endfor %}
+  </div>
+
+  <p class="hint" style="margin-top:16px">
+    ※ サンプルの <code>pass</code> は <code>YOUR_PASSWORD</code> になっています。あなたのログインパスワードに置き換えてください。
+  </p>
+</div>
+{% endblock %}

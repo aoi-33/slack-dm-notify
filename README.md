@@ -135,6 +135,17 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
   echo $! > uvicorn.pid          # 停止は: kill "$(cat uvicorn.pid)"
   ```
 
+### Docker / Docker Compose
+`.env` を用意すれば、Docker だけで起動できます。DB はホストの `./data` に永続化されます。
+```bash
+cp .env.example .env        # SLACK_BOT_TOKEN / SECRET_KEY を設定
+docker compose up -d --build # http://localhost:8000
+```
+- ログ確認: `docker compose logs -f`
+- 停止: `docker compose down`（`./data/slack_noti.db` は残るのでデータは保持）
+- ポート変更: `docker-compose.yml` の `ports` を `"8080:8000"` 等に変更
+- DB ファイル実体は `./data/slack_noti.db`（バックアップはこのファイルをコピー）
+
 ### 本番（systemd で自動起動）
 再起動後も自動で立ち上げたい場合の例（`/etc/systemd/system/slack-noti.service`）:
 ```ini

@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    image: slack-dm-notify
+    ports:
+      - "8000:8000"
+    # SLACK_BOT_TOKEN / SECRET_KEY は .env から読み込む
+    env_file:
+      - .env
+    # DB はホストの ./data に保存（.env の DATABASE_URL より優先される）
+    environment:
+      DATABASE_URL: sqlite:////data/slack_noti.db
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

@@ -340,5 +340,4 @@ pytest --cov=app --cov-report=term-missing
 
 ## ライセンス
 
-未設定です。公開する場合は用途に応じてライセンス（例: MIT）を追加してください
-（`LICENSE` ファイルを置き、本節を更新）。
+[MIT License](LICENSE) で公開しています。
